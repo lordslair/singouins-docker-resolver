@@ -26,18 +26,18 @@ then
     fi
 fi
 
-echo -n `date +"%F %X"` "Installing dependancies"
-if [ $QUIET='True' ]
-    then
-        npm install --silent >/dev/null 2>&1
-    else
-        npm install
-fi
-if [ $? -eq 0 ]
+echo -n `date +"%F %X"` "Moving deps"
+if [ ! -d /node_modules ]
 then
-    echo -e $OK
-else
     echo -e $KO
+else
+    mv /node_modules $APP_PATH/
+    if [ $? -eq 0 ]
+    then
+        echo -e $OK
+    else
+        echo -e $KO
+    fi
 fi
 
 echo `date +"%F %X"` "We're done"
