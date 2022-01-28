@@ -5,6 +5,7 @@ KO="\t[\e[91m✗\e[0m]"
 echo "path:$APP_PATH"
 echo "quiet:$QUIET"
 echo "repo:$GIT_REPO"
+echo "env:$NODE_ENV"
 echo '-----'
 
 if [ ! -d $APP_PATH ]
@@ -26,18 +27,18 @@ then
     fi
 fi
 
-echo -n `date +"%F %X"` "Moving deps"
-if [ ! -d /node_modules ]
-then
-    echo -e $KO
-else
-    mv /node_modules $APP_PATH/
-    if [ $? -eq 0 ]
+echo -n `date +"%F %X"` "Installing dependancies"
+if [ $QUIET='True' ]
     then
-        echo -e $OK
+        npm install --silent >/dev/null 2>&1
     else
-        echo -e $KO
-    fi
+        npm install
+fi
+if [ $? -eq 0 ]
+then
+    echo -e $OK
+else
+    echo -e $KO
 fi
 
 echo `date +"%F %X"` "We're done"
